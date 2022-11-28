@@ -1,0 +1,45 @@
+$dropdown-padding: 10px;
+
+.nav-link-container {
+    font-family: "Oswald", sans-serif;
+    font-size: 1.1em;
+    margin-right: 15px;
+    display: inline-block;
+
+    .nav-link-text {
+        display: flex;
+        align-items: center;
+        text-transform: uppercase;
+
+        a, span {
+            color: var(--ion-color-dark);
+            text-decoration: none;
+            margin-right: 3px;
+            cursor: pointer;
+            width: 100%;
+
+            &:hover {
+                text-decoration: underline;
+                color: var(--ion-color-primary);
+            }
+        }
+
+        ion-icon {
+            font-size: 1.1em;
+        }
+    }
+}
+
+ion-popover {
+    max-width: max-content;
+    --background: var(--ion-color-light-tint);
+
+    .nav-link-container {
+        padding: $dropdown-padding $dropdown-padding 0px $dropdown-padding;
+        margin: 0;
+
+        &:last-child {
+            padding-bottom: $dropdown-padding;
+        }
+    }
+}
