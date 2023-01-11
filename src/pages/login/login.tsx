@@ -54,15 +54,18 @@ const Login: React.FC = () => {
     );
   };
 
-  // validate the email input //
+  // front end //
   const validate = (ev: Event) => {
     const value = (ev.target as HTMLInputElement).value;
+
     setIsValid(undefined);
+
     if (value === '') return;
+
     validateEmail(value) !== null ? setIsValid(true) : setIsValid(false);
   };
 
-  // mark the email input as touched //
+  // front end //
   const markTouched = () => {
     setIsTouched(true);
   };
@@ -79,21 +82,21 @@ const Login: React.FC = () => {
             alert('Sign-in successful');
             history.push('/app');
           } else {
-            void auth.signOut();
-            alert(
-              'This email is not a Walktober account. Please sign-up first.'
-            );
+            await auth.signOut();
+            alert('This email is not a Walktober account. Please sign-up first.');
           }
         })
         .catch((error) => {
           console.log(error);
           alert(error);
         });
-    // ios & android //
+      // ios & android //
     } else {
+      await GoogleAuth.signOut();
+      await FirebaseAuthentication.signOut();
       await GoogleAuth.signIn()
         .then(async (result) => {
-          void FirebaseAuthentication.signInWithGoogle(
+          await FirebaseAuthentication.signInWithGoogle(
             result.authentication.idToken,
             result.authentication.accessToken
           );
@@ -105,9 +108,7 @@ const Login: React.FC = () => {
           } else {
             await GoogleAuth.signOut();
             await FirebaseAuthentication.signOut();
-            alert(
-              'This email is not a Walktober account. Please sign-up first.'
-            );
+            alert('This email is not a Walktober account. Please sign-up first.');
           }
         })
         .catch((error) => {
@@ -131,7 +132,7 @@ const Login: React.FC = () => {
       });
   };
 
-  // move to signup button //
+  // move to signup button
   const moveToSignup = () => {
     history.push('/signup');
   };
@@ -147,9 +148,8 @@ const Login: React.FC = () => {
           <IonCardContent>
             <IonItem
               fill="solid"
-              className={`${(isValid ?? false) && 'ion-valid'} ${
-                isValid === false && 'ion-invalid'
-              } ${isTouched && 'ion-touched'}`}
+              className={`${isValid && 'ion-valid'} ${isValid === false && 'ion-invalid'
+                } ${isTouched && 'ion-touched'}`}
             >
               <IonLabel position="floating">Email</IonLabel>
               <IonInput
